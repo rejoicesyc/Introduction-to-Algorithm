@@ -1,7 +1,7 @@
 # Introduction-to-Algorithm
 Pythonic implementation of the code in Introduction to Algorithm
 
-一个比较Pythonic的算法导论实现
+一个比较Pythonic的算法导论实现，以及leetcode-cn刷题指南
 
 algorithms are tested in https://leetcode-cn.com and provide the problem urls for each algorithm
 
@@ -9,3 +9,4 @@ algorithms are tested in https://leetcode-cn.com and provide the problem urls fo
 
 Chapters already included：
 - getting started
+- divide and conquer
