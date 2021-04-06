@@ -81,8 +81,6 @@ class Solution2:
 
 通过股票问题 198 / 210 的测试
 
-解释：因为这个例子是 range(10000, -1, -1) 的数组，所以在求changes和后面动态规划的时候遍历了两遍时间太长不能通过。
-
 ```python
 class Solution3:
     def maxSubArray(self, nums: List[int]) -> int:
