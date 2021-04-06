@@ -27,10 +27,7 @@ class Solution:
                 else:
                     tmp[each % mod // div + 9].append(each)
 
-            nums = []
-            for each in tmp:
-                nums += each
-            
+            nums = [x for each in tmp for x in each]
             mod, div, tmp = mod * 10, div * 10, [[] for _ in range(19)]
         return nums
 ```
