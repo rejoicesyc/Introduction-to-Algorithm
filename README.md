@@ -7,7 +7,7 @@ Chapters already included：
 - divide and conquer
 - heap sort
 - quick sort
-- sorting_in_linear_time
+- sorting in linear time
 
 
 **reference**
