@@ -10,6 +10,6 @@ Chapters already included：
 - sorting in linear time
 
 
-**reference**
+## reference
 
 sorting algorithm : https://leetcode-cn.com/problems/sort-an-array/solution/python-shi-xian-de-shi-da-jing-dian-pai-xu-suan-fa/

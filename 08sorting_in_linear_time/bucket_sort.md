@@ -10,7 +10,7 @@ class Solution:
         if len(nums) < 2:
             return nums
 
-        bucketsize = 10
+        bucketsize = 10 # 预定义的桶数量，定义一个合适的桶数量可以提高算法效率
         _min, _max = min(nums), max(nums)
         bucketnum = (_max - _min) // bucketsize + 1
         bucket = [[] * bucketnum]
