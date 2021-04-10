@@ -1,6 +1,6 @@
 # Introduction-to-Algorithm
 
-Pythonic implementation of the code in `Introduction to Algorithm` with the corresponding problems on `leetcode`
+Pythonic implementation of the code in `Introduction to Algorithm` with the corresponding problems on `leetcode` or `luogu`
 
 Chapters already included：
 - getting started
