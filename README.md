@@ -3,6 +3,7 @@
 Pythonic implementation of the code in `Introduction to Algorithm` with the corresponding problems on `leetcode` or `luogu`
 
 Chapters already included：
+```
 ├─02getting_started
 ├─04divide_and_conquer
 ├─06heap_sort
@@ -13,7 +14,7 @@ Chapters already included：
 ├─23minimum_spanning_trees
 ├─24single_source_shortest_paths
 └─25all_pairs_shortest_paths
-
+```
 
 ## reference
 
