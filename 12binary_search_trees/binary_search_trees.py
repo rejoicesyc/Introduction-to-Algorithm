@@ -225,7 +225,7 @@ class BinarySearchTree:
         """
         graph = nx.DiGraph()
         graph, pos = self.__create_graph(graph, root)
-        fig, ax = plt.subplots(figsize=(8, 10))
+        fig, ax = plt.subplots(figsize=(15, 10))
         nx.draw_networkx(graph, pos, ax=ax, node_size=300)
         plt.show()
 

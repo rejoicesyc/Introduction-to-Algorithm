@@ -10,6 +10,8 @@ Chapters already included：
 ├─07quick_sort
 ├─08sorting_in_linear_time
 ├─09medians_and_order_statistics
+├─12binary_search_trees
+├─13red_black_trees
 ├─22elementary_graph_algorithms
 ├─23minimum_spanning_trees
 ├─24single_source_shortest_paths
