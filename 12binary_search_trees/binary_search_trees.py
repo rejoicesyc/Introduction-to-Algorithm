@@ -1,9 +1,14 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+import random
+import PySide2
+import os
+
+
 class BinaryTreeNode:
     """ binary tree node
 
     The definition of binary tree's node.
-    This class overloads the greater than, less than, and equal operators to compare tree.
-    Since we assert each node in binary search tree is unique, so the comparation to keys can be used to compare two nodes.
 
     Attributes:
         val   : value of the node with the type of int
@@ -16,10 +21,6 @@ class BinaryTreeNode:
         self.left = left
         self.right = right
         self.parent = parent
-
-    def __eq__(self, other) -> bool: return self.val == other.val
-    def __lt__(self, other) -> bool: return self.val < other.val
-    def __gt__(self, other) -> bool: return self.val > other.val
 
 
 class BinarySearchTree:
@@ -122,6 +123,10 @@ class BinarySearchTree:
         if self.treeSearch(key): return # if key has already in this tree, we do nothing
 
         newNode = BinaryTreeNode(x=key)
+        if self.root == None:
+            self.root = newNode
+            return
+
         cur = self.root
         pre = None
         while cur != None:
@@ -181,4 +186,60 @@ class BinarySearchTree:
         """
         if root1 == None and root2 == None: return True
         elif root1 == None or root2 == None: return False
-        return root1 == root2 and self.__cmp_trees(root1.left, root2.left) and self.__cmp_trees(root1.right, root2.right)
+        return root1.val == root2.val and self.__cmp_trees(root1.left, root2.left) and self.__cmp_trees(root1.right, root2.right)
+
+    def __create_graph(self, G, root: BinaryTreeNode, pos={}, x=0, y=0, layer=1) -> None:
+        """add edge for root node
+
+        if root has left child, add edge between root and left child, 
+        elif root has right child, add edge between root and right child.
+        the y position is calulated by the layer of itself,
+        the x position decays with the rate of 0.5.
+
+        Args:
+            G     : graph value
+            root  : current node
+            pos   : position dict
+            x     : the x position of node root
+            y     : the y position of node root
+            layer : the layer of node root
+        """
+        pos[root.val] = (x, y)
+        if root.left:
+            G.add_edge(root.val, root.left.val)
+            l_x, l_y = x - 1 / 2 ** layer, y - 1
+            l_layer = layer + 1
+            self.__create_graph(G, root.left, x=l_x, y=l_y, pos=pos, layer=l_layer)
+        if root.right:
+            G.add_edge(root.val, root.right.val)
+            r_x, r_y = x + 1 / 2 ** layer, y - 1
+            r_layer = layer + 1
+            self.__create_graph(G, root.right, x=r_x, y=r_y, pos=pos, layer=r_layer)
+        return (G, pos)
+
+    def __drawTree(self, root: BinaryTreeNode) -> None:
+        """draw the subtree
+
+        Args:
+            root : the root of input subtree
+        """
+        graph = nx.DiGraph()
+        graph, pos = self.__create_graph(graph, root)
+        fig, ax = plt.subplots(figsize=(8, 10))
+        nx.draw_networkx(graph, pos, ax=ax, node_size=300)
+        plt.show()
+
+    def drawTree(self) -> None:
+        """draw the whole binary tree
+        """
+        self.__drawTree(self.root)
+
+
+dirname = os.path.dirname(PySide2.__file__) 
+plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+tree = BinarySearchTree()
+for _ in range(20):
+    tmp = random.randint(1, 100)
+    tree.treeInsert(tmp)
+tree.drawTree()
