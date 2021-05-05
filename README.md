@@ -15,7 +15,3 @@ Chapters already included：
 ├─24single_source_shortest_paths
 └─25all_pairs_shortest_paths
 ```
-
-## reference
-
-sorting algorithm : https://leetcode-cn.com/problems/sort-an-array/solution/python-shi-xian-de-shi-da-jing-dian-pai-xu-suan-fa/

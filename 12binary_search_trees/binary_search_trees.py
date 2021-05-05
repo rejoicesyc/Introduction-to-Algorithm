@@ -2,7 +2,8 @@ class BinaryTreeNode:
     """ binary tree node
 
     The definition of binary tree's node.
-    This class overloads the greater than, less than, and equal operators.
+    This class overloads the greater than, less than, and equal operators to compare tree.
+    Since we assert each node in binary search tree is unique, so the comparation to keys can be used to compare two nodes.
 
     Attributes:
         val   : value of the node with the type of int
@@ -24,7 +25,8 @@ class BinaryTreeNode:
 class BinarySearchTree:
     """binary search tree node
 
-    The definition of binary search tree and it's methods
+    The definition of binary search tree and it's methods,
+    Overloads equal operator to compare tree.
 
     Attributes:
         root : the root of the tree
@@ -41,37 +43,39 @@ class BinarySearchTree:
         Returns:
             whether key is in the tree
         """
-        return self.__treeSearch(self.root, key)
+        return self.__treeSearch(self.root, key) != None
 
-    def __treeSearch(self, root: BinaryTreeNode, key: int) -> bool:
-        """private method of searching if key in the input subtree (backtracking version)
+    def __treeSearch(self, root: BinaryTreeNode, key: int) -> BinaryTreeNode:
+        """private method of searching target node in the input subtree (backtracking version)
 
         Args:
             root: the root of the target tree
             key : the value input to search
 
         Returns:
-            whether key is in the tree
+            if key in the subtree return the node,
+            else return None
         """
-        if root == None: return False
-        if root.val == key: return True
-        return self.treeSearch(root.left, key) or self.treeSearch(root.right, key)
+        if root == None or root.val == key: return root
+        if root.val < key: return self.__treeSearch(root.right, key)
+        else: return self.__treeSearch(root.left, key)
 
-    def __iterativeTreeSearch(self, root: BinaryTreeNode, key: int) -> bool:
-        """private method of searching if key in the input subtree (iterative version)
+    def __iterativeTreeSearch(self, root: BinaryTreeNode, key: int) -> BinaryTreeNode:
+        """private method of searching target node in the input subtree (iterative version)
 
         Args:
             root: the root of the target tree
             key : the value input to search
 
         Returns:
-            whether key is in the tree
+            if key in the subtree return the node,
+            else return None
         """
         while root != None:
-            if root.val == key: return True
+            if root.val == key: return root
             elif root.val < key: root = root.right
             else: root = root.left
-        return False
+        return None
 
     def treeMinimum(self) -> int:
         """find the minimum value in tree
@@ -110,17 +114,62 @@ class BinarySearchTree:
         return root  
 
     def treeInsert(self, key: int) -> None:
-        pass
+        """insert node with value of key to current tree.
+
+        Args:  
+            key : the value of new tree node.
+        """
+        if self.treeSearch(key): return # if key has already in this tree, we do nothing
+
+        newNode = BinaryTreeNode(x=key)
+        cur = self.root
+        pre = None
+        while cur != None:
+            if cur.val < key:
+                pre, cur = cur, cur.right
+            elif cur.val > key:
+                pre, cur = cur, cur.left
+
+        if key < pre.val: pre.left = newNode
+        elif key > pre.val: pre.right = newNode
+        newNode.parent = pre
 
     def treeDelete(self, key: int) -> None:
-        pass
+        """delete the node with value of key in the tree
 
-    def __transplant(self) -> None:
-        pass
+        Args: 
+            key : the target key to delete
+        """
+        target = self.__treeSearch(self.root, key)
+        if not target: return # if key is not in the tree, we do nothing
+        
+        if target.left == None: self.__transplant(target, target.right)
+        elif target.right == None: self.__transplant(target, target.left)
+        else:
+            tmp = self.__treeMinimum(self.root, target.right)
+            if tmp.parent != target:
+                self.__transplant(tmp, tmp.right)
+                tmp.right = target.right
+                tmp.right.parent = tmp
+            self.__transplant(target, tmp)
+            tmp.left = target.left
+            tmp.left.parent = tmp
 
-    def __eq__(self, other) -> bool: return self.__cmp_tree(self.root, other.root)
+    def __transplant(self, u: BinaryTreeNode, v: BinaryTreeNode) -> None:
+        """use subtree v to take u's position
 
-    def __cmp_tree(self, root1: BinaryTreeNode, root2: BinaryTreeNode) -> bool:
+        Args:
+            u : input tree node
+            v : input tree node
+        """
+        if u.parent == None: self.root = v
+        elif u == u.parent.left: u.parent.left = v
+        elif u == u.parent.right: u.parent.right = v
+        if v != None: v.parent = u.parent
+
+    def __eq__(self, other) -> bool: return self.__cmp_trees(self.root, other.root)
+
+    def __cmp_trees(self, root1: BinaryTreeNode, root2: BinaryTreeNode) -> bool:
         """private method of comparing 2 input subtree
 
         Args:
@@ -132,4 +181,4 @@ class BinarySearchTree:
         """
         if root1 == None and root2 == None: return True
         elif root1 == None or root2 == None: return False
-        return root1 == root2 and self.__cmp_tree(root1.left, root2.left) and self.__cmp_tree(root1.right, root2.right)
+        return root1 == root2 and self.__cmp_trees(root1.left, root2.left) and self.__cmp_trees(root1.right, root2.right)
