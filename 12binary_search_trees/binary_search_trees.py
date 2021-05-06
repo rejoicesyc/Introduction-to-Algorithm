@@ -151,7 +151,7 @@ class BinarySearchTree:
         if target.left == None: self.__transplant(target, target.right)
         elif target.right == None: self.__transplant(target, target.left)
         else:
-            tmp = self.__treeMinimum(self.root, target.right)
+            tmp = self.__treeMinimum(target.right)
             if tmp.parent != target:
                 self.__transplant(tmp, tmp.right)
                 tmp.right = target.right
@@ -230,16 +230,22 @@ class BinarySearchTree:
         plt.show()
 
     def drawTree(self) -> None:
-        """draw the whole binary tree
+        """draw the whole binary tree while self.root is not None.
         """
-        self.__drawTree(self.root)
+        if self.root: self.__drawTree(self.root)
 
 
 dirname = os.path.dirname(PySide2.__file__) 
 plugin_path = os.path.join(dirname, 'plugins', 'platforms')
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 tree = BinarySearchTree()
-for _ in range(20):
+keys = []
+for _ in range(5):
     tmp = random.randint(1, 100)
+    keys.append(tmp)
     tree.treeInsert(tmp)
-tree.drawTree()
+    tree.drawTree()
+random.shuffle(keys)
+for each in keys:
+    tree.treeDelete(each)
+    tree.drawTree()
