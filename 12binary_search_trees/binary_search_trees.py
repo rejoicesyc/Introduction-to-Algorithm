@@ -34,6 +34,11 @@ class BinarySearchTree:
     """
     def __init__(self) -> None:
         self.root = None
+        self.fig = plt.figure(figsize=(15, 10))
+        plt.ion()
+
+    def __del__(self) -> None:
+        plt.ioff()
 
     def treeSearch(self, key: int) -> bool:
         """search key in the tree
@@ -223,12 +228,15 @@ class BinarySearchTree:
         Args:
             root : the root of input subtree
         """
+        plt.cla()
+        plt.clf()
         graph = nx.DiGraph()
         graph, pos = self.__create_graph(graph, root)
-        fig, ax = plt.subplots(figsize=(15, 10))
+        ax = self.fig.add_subplot()
+        # fig, ax = plt.subplots(figsize=(15, 10))
         nx.draw_networkx(graph, pos, ax=ax, node_size=300)
-        plt.show()
-
+        plt.pause(0.5)
+        
     def drawTree(self) -> None:
         """draw the whole binary tree while self.root is not None.
         """
@@ -240,7 +248,7 @@ plugin_path = os.path.join(dirname, 'plugins', 'platforms')
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 tree = BinarySearchTree()
 keys = []
-for _ in range(5):
+for _ in range(10):
     tmp = random.randint(1, 100)
     keys.append(tmp)
     tree.treeInsert(tmp)
@@ -249,3 +257,4 @@ random.shuffle(keys)
 for each in keys:
     tree.treeDelete(each)
     tree.drawTree()
+del tree
