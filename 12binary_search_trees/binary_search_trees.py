@@ -87,7 +87,7 @@ class BinarySearchTree:
         return self.__treeMinimum(self.root).val
 
     def __treeMinimum(self, root: BinaryTreeNode) -> BinaryTreeNode:
-        """private method find the minimum value in the input subtree
+        """private method find the minimum node in the input subtree
 
         Returns:
             the node with minimum value
@@ -105,7 +105,7 @@ class BinarySearchTree:
         return self.__treeMaxinum(self.root).val
 
     def __treeMaxinum(self, root: BinaryTreeNode) -> BinaryTreeNode:
-        """private method find the maxinum value in the input subtree
+        """private method find the maxinum node in the input subtree
 
         Returns:
             the node with maxinum value
