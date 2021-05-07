@@ -240,6 +240,8 @@ class BinarySearchTree:
     def drawTree(self) -> None:
         """draw the whole binary tree while self.root is not None.
         """
+
+        # TODO : can not draw a tree with root node only
         if self.root: self.__drawTree(self.root)
 
 
