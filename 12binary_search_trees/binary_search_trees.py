@@ -5,24 +5,6 @@ import PySide2
 import os
 
 
-class BinaryTreeNode:
-    """ binary tree node
-
-    The definition of binary tree's node.
-
-    Attributes:
-        val   : value of the node with the type of int
-        left  : left child node
-        right : right child node
-        parent: parent node
-    """
-    def __init__(self, x: int, left=None, right=None, parent=None) -> None:
-        self.val = x
-        self.left = left
-        self.right = right
-        self.parent = parent
-
-
 class BinarySearchTree:
     """binary search tree node
 
@@ -31,7 +13,28 @@ class BinarySearchTree:
 
     Attributes:
         root : the root of the tree
+        fig  : default figure value
     """
+
+
+    class BinaryTreeNode:
+        """inner class of binary tree node
+
+        The definition of binary tree's node.
+
+        Attributes:
+            val   : value of the node with the type of int
+            left  : left child node
+            right : right child node
+            parent: parent node
+        """
+        def __init__(self, x: int, left=None, right=None, parent=None) -> None:
+            self.val = x
+            self.left = left
+            self.right = right
+            self.parent = parent
+
+
     def __init__(self) -> None:
         self.root = None
         self.fig = plt.figure(figsize=(15, 10))
@@ -127,7 +130,7 @@ class BinarySearchTree:
         """
         if self.treeSearch(key): return # if key has already in this tree, we do nothing
 
-        newNode = BinaryTreeNode(x=key)
+        newNode = self.BinaryTreeNode(x=key)
         if self.root == None:
             self.root = newNode
             return
