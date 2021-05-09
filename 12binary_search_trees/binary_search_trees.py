@@ -213,16 +213,19 @@ class BinarySearchTree:
             layer : the layer of node root
         """
         pos[root.val] = (x, y)
-        if root.left:
-            G.add_edge(root.val, root.left.val)
-            l_x, l_y = x - 1 / 2 ** layer, y - 1
-            l_layer = layer + 1
-            self.__create_graph(G, root.left, x=l_x, y=l_y, pos=pos, layer=l_layer)
-        if root.right:
-            G.add_edge(root.val, root.right.val)
-            r_x, r_y = x + 1 / 2 ** layer, y - 1
-            r_layer = layer + 1
-            self.__create_graph(G, root.right, x=r_x, y=r_y, pos=pos, layer=r_layer)
+        if root == self.root and root.left == None and root.right == None:
+            G.add_node(root.val)
+        else:
+            if root.left:
+                G.add_edge(root.val, root.left.val)
+                l_x, l_y = x - 1 / 2 ** layer, y - 1
+                l_layer = layer + 1
+                self.__create_graph(G, root.left, x=l_x, y=l_y, pos=pos, layer=l_layer)
+            if root.right:
+                G.add_edge(root.val, root.right.val)
+                r_x, r_y = x + 1 / 2 ** layer, y - 1
+                r_layer = layer + 1
+                self.__create_graph(G, root.right, x=r_x, y=r_y, pos=pos, layer=r_layer)
         return (G, pos)
 
     def __drawTree(self, root: BinaryTreeNode) -> None:
@@ -236,30 +239,33 @@ class BinarySearchTree:
         graph = nx.DiGraph()
         graph, pos = self.__create_graph(graph, root)
         ax = self.fig.add_subplot()
-        # fig, ax = plt.subplots(figsize=(15, 10))
         nx.draw_networkx(graph, pos, ax=ax, node_size=300)
         plt.pause(0.5)
         
     def drawTree(self) -> None:
         """draw the whole binary tree while self.root is not None.
         """
-
-        # TODO : can not draw a tree with root node only
         if self.root: self.__drawTree(self.root)
 
 
-dirname = os.path.dirname(PySide2.__file__) 
-plugin_path = os.path.join(dirname, 'plugins', 'platforms')
-os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
-tree = BinarySearchTree()
-keys = []
-for _ in range(10):
-    tmp = random.randint(1, 100)
-    keys.append(tmp)
-    tree.treeInsert(tmp)
-    tree.drawTree()
-random.shuffle(keys)
-for each in keys:
-    tree.treeDelete(each)
-    tree.drawTree()
-del tree
+
+def test():
+    """the following code show the process of adding 10 nodes and delete them by step.
+    """
+    dirname = os.path.dirname(PySide2.__file__) 
+    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+    tree = BinarySearchTree()
+    keys = []
+    for _ in range(10):
+        tmp = random.randint(1, 100)
+        keys.append(tmp)
+        tree.treeInsert(tmp)
+        tree.drawTree()
+    random.shuffle(keys)
+    for each in keys:
+        tree.treeDelete(each)
+        tree.drawTree()
+    del tree
+
+test()
